@@ -1,0 +1,227 @@
+﻿@page
+@model FurnitureProduction.Pages.Warehouse.IndexModel
+@{
+    ViewData["Title"] = "Склад";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card shadow-sm p-4 mt-5">
+                <h2 class="text-center mb-4" style="color: #3e2c1f;">@ViewData["Title"]</h2>
+
+                @if (TempData["SuccessMessage"] != null)
+                {
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        @TempData["SuccessMessage"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
+
+                @if (TempData["ErrorMessage"] != null)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        @TempData["ErrorMessage"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                }
+
+                <div class="d-flex justify-content-between mb-3">
+                    <form method="get" class="w-50">
+                        <div class="form-group">
+                            <label for="searchString" class="form-label">Поиск:</label>
+                            <input type="text" class="form-control" id="searchString" name="searchString" value="@Model.SearchString" />
+                        </div>
+                        <div class="form-group mt-2">
+                            <label for="sortOrder" class="form-label">Сортировка:</label>
+                            <select name="sortOrder" id="sortOrder" class="form-control" asp-items="@(new SelectList(new List<SelectListItem>
+                            {
+                                new SelectListItem { Value = "name_asc", Text = "Название (по возрастанию)" },
+                                new SelectListItem { Value = "name_desc", Text = "Название (по убыванию)" },
+                                new SelectListItem { Value = "type_asc", Text = "Тип (по возрастанию)" },
+                                new SelectListItem { Value = "type_desc", Text = "Тип (по убыванию)" },
+                                new SelectListItem { Value = "category_asc", Text = "Категория (по возрастанию)" },
+                                new SelectListItem { Value = "category_desc", Text = "Категория (по убыванию)" },
+                                new SelectListItem { Value = "quantity_asc", Text = "Кол-во (по возрастанию)" },
+                                new SelectListItem { Value = "quantity_desc", Text = "Кол-во (по убыванию)" },
+                                new SelectListItem { Value = "price_asc", Text = "Цена за ед. (по возрастанию)" },
+                                new SelectListItem { Value = "price_desc", Text = "Цена за ед. (по убыванию)" }
+                            }, "Value", "Text", Model.SortOrder))"></select>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-2 w-100">Применить</button>
+                    </form>
+                    <a asp-page="/Materials/Create" class="btn btn-primary btn-sm d-flex align-items-center justify-content-center" style="min-width: 120px; height: 38px;">Добавить материал</a>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>
+                                    <a asp-page="./Index" asp-route-sortOrder="@(Model.SortOrder == "name_asc" ? "name_desc" : "name_asc")" class="d-flex align-items-center" style="font-weight: bold; color: #000; text-decoration: none;">
+                                        Название
+                                        @if (Model.SortOrder == "name_asc")
+                                        {
+                                            <i class="bi bi-arrow-up ms-1"></i>
+                                        }
+                                        else if (Model.SortOrder == "name_desc")
+                                        {
+                                            <i class="bi bi-arrow-down ms-1"></i>
+                                        }
+                                    </a>
+                                </th>
+                                <th>
+                                    <a asp-page="./Index" asp-route-sortOrder="@(Model.SortOrder == "type_asc" ? "type_desc" : "type_asc")" class="d-flex align-items-center" style="font-weight: bold; color: #000; text-decoration: none;">
+                                        Тип
+                                        @if (Model.SortOrder == "type_asc")
+                                        {
+                                            <i class="bi bi-arrow-up ms-1"></i>
+                                        }
+                                        else if (Model.SortOrder == "type_desc")
+                                        {
+                                            <i class="bi bi-arrow-down ms-1"></i>
+                                        }
+                                    </a>
+                                </th>
+                                <th>
+                                    <a asp-page="./Index" asp-route-sortOrder="@(Model.SortOrder == "category_asc" ? "category_desc" : "category_asc")" class="d-flex align-items-center" style="font-weight: bold; color: #000; text-decoration: none;">
+                                        Категория
+                                        @if (Model.SortOrder == "category_asc")
+                                        {
+                                            <i class="bi bi-arrow-up ms-1"></i>
+                                        }
+                                        else if (Model.SortOrder == "category_desc")
+                                        {
+                                            <i class="bi bi-arrow-down ms-1"></i>
+                                        }
+                                    </a>
+                                </th>
+                                <th>
+                                    <a asp-page="./Index" asp-route-sortOrder="@(Model.SortOrder == "quantity_asc" ? "quantity_desc" : "quantity_asc")" class="d-flex align-items-center" style="font-weight: bold; color: #000; text-decoration: none;">
+                                        Кол-во
+                                        @if (Model.SortOrder == "quantity_asc")
+                                        {
+                                            <i class="bi bi-arrow-up ms-1"></i>
+                                        }
+                                        else if (Model.SortOrder == "quantity_desc")
+                                        {
+                                            <i class="bi bi-arrow-down ms-1"></i>
+                                        }
+                                    </a>
+                                </th>
+                                <th>
+                                    <a asp-page="./Index" asp-route-sortOrder="@(Model.SortOrder == "price_asc" ? "price_desc" : "price_asc")" class="d-flex align-items-center" style="font-weight: bold; color: #000; text-decoration: none;">
+                                        Цена за ед.
+                                        @if (Model.SortOrder == "price_asc")
+                                        {
+                                            <i class="bi bi-arrow-up ms-1"></i>
+                                        }
+                                        else if (Model.SortOrder == "price_desc")
+                                        {
+                                            <i class="bi bi-arrow-down ms-1"></i>
+                                        }
+                                    </a>
+                                </th>
+                                <th style="font-weight: bold; color: #000;">
+                                    Поставщик
+                                </th>
+                                <th style="font-weight: bold; color: #000;">Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Materials)
+                            {
+                                <tr class="@(item.Quantity < 10 ? "table-danger" : "")">
+                                    <td>@item.Name</td>
+                                    <td>@item.Type</td>
+                                    <td>@item.Category</td>
+                                    <td>@item.Quantity</td>
+                                    <td>@item.UnitPrice</td>
+                                    <td>@item.Supplier</td>
+                                    <td>
+                                        <div class="btn-group" role="group" style="gap: 0.5rem;">
+                                            <a asp-page="/Materials/Edit" asp-route-id="@item.Id" class="btn btn-custom-edit">Редактировать</a>
+                                            <a asp-page="/Materials/Details" asp-route-id="@item.Id" class="btn btn-custom-details">Подробности</a>
+                                            <a asp-page="/Materials/Delete" asp-route-id="@item.Id" class="btn btn-custom-delete">Удалить</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                @if (!Model.Materials.Any())
+                {
+                    <div class="alert alert-warning" role="alert">
+                        На складе нет материалов.
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+<style>
+    /* Кастомные стили для кнопок */
+    .btn-custom-edit {
+        background-color: #d4af37;
+        border: none;
+        border-radius: 0.25rem;
+        padding: 0.25rem 0.75rem;
+        font-size: 0.875rem;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-custom-edit:hover {
+            background-color: #3a5a3a;
+        }
+
+    .btn-custom-details {
+        background-color: #6a8fa1;
+        color: white;
+        border: none;
+        border-radius: 0.25rem;
+        padding: 0.25rem 0.75rem;
+        font-size: 0.875rem;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-custom-details:hover {
+            background-color: #5a7f91;
+        }
+
+    .btn-custom-delete {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        border-radius: 0.25rem;
+        padding: 0.25rem 0.75rem;
+        font-size: 0.875rem;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-custom-delete:hover {
+            background-color: #7a3a3a;
+        }
+
+    .btn-group .btn {
+        margin: 0;
+    }
+
+    /* Стили для выравнивания заголовков таблицы с иконками */
+    th a {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+
+        th a i {
+            font-size: 0.9em;
+            vertical-align: middle;
+        }
+</style>

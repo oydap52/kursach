@@ -1,0 +1,183 @@
+﻿@page
+@model FurnitureProduction.Pages.UserCabinetModel
+@{
+    ViewData["Title"] = "Личный кабинет";
+}
+
+<div class="container">
+    <h1 class="mb-4 text-center" style="color: #3e2c1f;">@ViewData["Title"]</h1>
+    <h3 class="text-center">Пользователь: @User.Identity.Name</h3>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div id="successMessage" class="alert alert-success text-center" role="alert" style="transition: opacity 0.5s;">
+            @TempData["SuccessMessage"]
+            @if (!string.IsNullOrEmpty(TempData["PdfContent"] as string))
+            {
+                <a href="/Orders/DownloadReceipt?orderId=@TempData["OrderId"]" class="btn btn-custom-edit" style="background-color: #d4af37; border-color: #d4af37; color: #3e2c1f; padding: 0.2rem 0.5rem; font-size: 0.75rem; transition: background-color 0.3s ease;">Скачать чек</a>
+            }
+        </div>
+    }
+
+    <div class="row justify-content-center mb-3">
+        <div class="col-md-8">
+            <div class="input-group">
+                <input type="text" class="form-control" id="searchInput" placeholder="Поиск по типу мебели..." />
+                <select class="form-control" id="statusFilter">
+                    <option value="">Все статусы</option>
+                    <option>Новая заявка</option>
+                    <option>В процессе</option>
+                    <option>Завершен</option>
+                </select>
+                <button class="btn btn-custom-edit" id="filterButton" style="background-color: #d4af37; border-color: #d4af37; color: #3e2c1f; padding: 0.25rem 0.75rem; font-size: 0.875rem;">Фильтровать</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h3 style="color: #3e2c1f;">Ваши заказы</h3>
+            @if (Model.Orders.Any())
+            {
+                <table class="table table-striped" id="ordersTable">
+                    <thead>
+                        <tr>
+                            <th>Номер заказа</th>
+                            <th>Тип мебели</th>
+                            <th>Дата заказа</th>
+                            <th>Примерная дата выполнения</th>
+                            <th>Статус</th>
+                            <th>Стоимость (BYN)</th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var order in Model.Orders)
+                        {
+                            <tr>
+                                <td>@order.Id</td>
+                                <td>@(order.FurnitureType ?? "Не указан")</td>
+                                <td>@(order.OrderDate.HasValue ? order.OrderDate.Value.ToString("dd.MM.yyyy HH:mm") : "Не указана")</td>
+                                <td>@(order.EstimatedCompletionDate.HasValue ? order.EstimatedCompletionDate.Value.ToString("dd.MM.yyyy") : "Не определена")</td>
+                                <td>@(order.Status ?? "Не указан")</td>
+                                <td>@(order.TotalCost.HasValue ? order.TotalCost.Value.ToString("F2") : "0.00") BYN</td>
+                                <td>
+                                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                                        <a asp-page="/Orders/OrderInfo" asp-route-id="@order.Id" class="btn btn-custom-details" style="background-color: #6a8fa1; border-color: #6a8fa1; color: white; padding: 0.2rem 0.5rem; font-size: 0.75rem; transition: background-color 0.3s ease;">Подробности</a>
+                                        @if (order.IsPaid)
+                                        {
+                                            <a asp-page="/Orders/DownloadReceipt" asp-route-orderId="@order.Id" class="btn btn-custom-edit" style="background-color: #d4af37; border-color: #d4af37; color: #3e2c1f; padding: 0.2rem 0.5rem; font-size: 0.75rem; transition: background-color 0.3s ease;">Скачать чек</a>
+                                        }
+                                        <a asp-page="/Contracts/DownloadContract" asp-route-orderId="@order.Id" class="btn btn-custom-edit contract-download-btn" style="background-color: #3a5a3a; border-color: #3a5a3a; color: white; padding: 0.2rem 0.5rem; font-size: 0.75rem; transition: background-color 0.3s ease;">Скачать договор</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p class="text-center" style="color: #3e2c1f;">У вас пока нет заказов.</p>
+            }
+        </div>
+    </div>
+</div>
+
+<style>
+    .btn-custom-edit {
+        background-color: #d4af37;
+        border: none;
+        border-radius: 0.25rem;
+        padding: 0.2rem 0.5rem;
+        font-size: 0.75rem;
+        transition: background-color 0.3s ease;
+        display: inline-block;
+    }
+
+    .btn-custom-edit:hover {
+        background-color: #3a5a3a;
+    }
+
+    .btn-custom-details {
+        background-color: #6a8fa1;
+        color: white;
+        border: none;
+        border-radius: 0.25rem;
+        padding: 0.2rem 0.5rem;
+        font-size: 0.75rem;
+        transition: background-color 0.3s ease;
+        display: inline-block;
+    }
+
+    .btn-custom-details:hover {
+        background-color: #5a7f91;
+    }
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const downloadButtons = document.querySelectorAll('.contract-download-btn');
+    downloadButtons.forEach(button => {
+        button.addEventListener('click', function (event) {
+            event.preventDefault();
+            const href = this.getAttribute('href');
+            const urlParams = new URLSearchParams(new URL(href, window.location).search);
+            const orderId = urlParams.get('orderId');
+
+            if (orderId) {
+                fetch(`/Contracts/DownloadContract?orderId=${orderId}`, { // Убедитесь, что маршрут правильный
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/pdf'
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.blob();
+                })
+                .then(data => {
+                    if (data instanceof Blob) {
+                        const url = window.URL.createObjectURL(data);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = `договор_заказа_${orderId}.pdf`;
+                        document.body.appendChild(a);
+                        a.click();
+                        a.remove();
+                        window.URL.revokeObjectURL(url);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error downloading PDF:', error);
+                    alert('Ошибка при скачивании договора. Проверьте консоль для деталей.');
+                });
+            }
+        });
+    });
+
+    // Остальной код фильтрации и таймера остается без изменений
+    document.getElementById('filterButton').addEventListener('click', function () {
+        const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+        const statusFilter = document.getElementById('statusFilter').value;
+        const rows = document.querySelectorAll('#ordersTable tbody tr');
+
+        rows.forEach(row => {
+            const furnitureType = row.cells[1].textContent.toLowerCase();
+            const status = row.cells[4].textContent;
+            const matchesSearch = searchTerm === "" ? true : furnitureType.includes(searchTerm);
+            const matchesStatus = !statusFilter || status === statusFilter;
+            row.style.display = matchesSearch && matchesStatus ? '' : 'none';
+        });
+    });
+
+    setTimeout(() => {
+        const successMessage = document.querySelector('#successMessage');
+        if (successMessage) {
+            successMessage.style.opacity = '0';
+            setTimeout(() => successMessage.style.display = 'none', 500);
+        }
+    }, 5000);
+});
+</script>

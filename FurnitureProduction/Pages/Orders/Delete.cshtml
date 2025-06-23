@@ -1,0 +1,42 @@
+﻿@page
+@model FurnitureProduction.Pages.Orders.DeleteModel
+
+@{
+    ViewData["Title"] = "Удаление заказа";
+}
+
+<div class="container py-4">
+    <h1 class="mb-4 text-center" style="color: #3e2c1f;">Удаление заказа #@Model.Order.Id</h1>
+
+    <div class="alert alert-warning" role="alert">
+        <h4 class="alert-heading">Подтверждение удаления</h4>
+        <p>Вы уверены, что хотите удалить этот заказ? Это действие нельзя отменить.</p>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">Клиент</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Order.ClientName)</dd>
+                <dt class="col-sm-3">Тип мебели</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Order.FurnitureType)</dd>
+                <dt class="col-sm-3">Статус</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Order.Status)</dd>
+                <dt class="col-sm-3">Дата заказа</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Order.OrderDate)</dd>
+                <dt class="col-sm-3">Стоимость</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Order.TotalCost) BYN</dd>
+            </dl>
+        </div>
+    </div>
+
+    <form method="post" class="mt-4 text-center">
+        <input type="hidden" asp-for="Order.Id" />
+        <button type="submit" class="btn btn-danger">Удалить</button>
+        <a asp-page="./Index" class="btn btn-secondary ms-2">Отмена</a>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,262 @@
+﻿@page "{id:int}"
+@model FurnitureProduction.Pages.Orders.EditModel
+@using FurnitureProduction.Models
+@{
+    ViewData["Title"] = "Редактировать заказ";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm p-4 mt-5">
+                <h2 class="text-center mb-4">Редактировать заказ</h2>
+
+                <form method="post">
+                    <input type="hidden" asp-for="Order.Id" />
+                    <input type="hidden" asp-for="Order.OrderDate" value="@(Model.Order.OrderDate.HasValue ? Model.Order.OrderDate.Value.ToString("yyyy-MM-ddTHH:mm:ss") : DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss"))" />
+
+                    <div class="form-group mb-3">
+                        <label asp-for="Order.ClientName" class="control-label"></label>
+                        <input asp-for="Order.ClientName" class="form-control" readonly required />
+                        <span asp-validation-for="Order.ClientName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="Order.PhoneNumber" class="control-label"></label>
+                        <input asp-for="Order.PhoneNumber" class="form-control phone-input" id="phoneNumber" placeholder="+375 (XX) XXX-XX-XX" required />
+                        <span asp-validation-for="Order.PhoneNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="Order.FurnitureType" class="control-label"></label>
+                        <select asp-for="Order.FurnitureType" class="form-control" asp-items="@Model.FurnitureTypes" onchange="updateVariants()" required>
+                            <option value="">Выберите тип мебели</option>
+                        </select>
+                        <span asp-validation-for="Order.FurnitureType" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="Order.FurnitureVariant" class="control-label"></label>
+                        <select id="furnitureVariant" class="form-control" aria-label="Выберите вариант мебели" onchange="updateEstimatedCost(); syncVariant()" required>
+                            <option value="">Выберите вариант мебели</option>
+                        </select>
+                        <!-- Убрано asp-validation-for="Order.FurnitureVariant" -->
+                        <small id="variantCost" class="text-muted">Средняя стоимость: 0 BYN</small>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="Order.Dimensions" class="control-label"></label>
+                        <div class="input-group">
+                            <input asp-for="Order.Dimensions" class="form-control" placeholder="Ширина x Длина x Высота (см, например, 200x150x80)" required onchange="updateEstimatedCost()" />
+                            <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="right" title="Габариты влияют на стоимость: за м² — 50 BYN, высота > 100 см добавляет 15%, > 150 см — 30%.">ℹ️</span>
+                        </div>
+                        <span asp-validation-for="Order.Dimensions" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="Order.Status" class="control-label"></label>
+                        <select asp-for="Order.Status" class="form-control">
+                            <option value="В обработке">В обработке</option>
+                            <option value="Подтверждён">Подтверждён</option>
+                            <option value="Отменён">Отменён</option>
+                            <option value="Выполнен">Выполнен</option>
+                        </select>
+                        <span asp-validation-for="Order.Status" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="Order.EmployeeId" class="control-label"></label>
+                        <select asp-for="Order.EmployeeId" class="form-control" asp-items="@Model.Employees" required>
+                            <option value="">Выберите сотрудника</option>
+                        </select>
+                        <span asp-validation-for="Order.EmployeeId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label>Выберите материалы для изготовления:</label>
+                        <div class="accordion" id="materialsAccordion">
+                            @{
+                                var allCategories = new[] { "Композиты", "Древесина", "Металл", "Ткань", "Фурнитура", "Отделка", "Стекло", "Наполнитель" };
+                                foreach (var category in allCategories)
+                                {
+                                    var materials = Model.MaterialViewModels.Where(m => m.Category == category).ToList();
+                                    if (materials.Any())
+                                    {
+                                        <div class="accordion-item" id="accordion-item-@category" style="display: none;">
+                                            <h2 class="accordion-header" id="heading-@category">
+                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@category" aria-expanded="false" aria-controls="collapse-@category">
+                                                    @category
+                                                </button>
+                                            </h2>
+                                            <div id="collapse-@category" class="accordion-collapse collapse" aria-labelledby="heading-@category" data-bs-parent="#materialsAccordion">
+                                                <div class="accordion-body">
+                                                    @foreach (var material in materials)
+                                                    {
+                                                        <div class="form-check">
+                                                            <input type="checkbox" name="SelectedMaterialIds" value="@material.Id" class="form-check-input material-checkbox" id="material-@material.Id" onchange="updateEstimatedCost()" @(Model.SelectedMaterialIds?.Contains(material.Id.ToString()) == true ? "checked" : "") />
+                                                            <label class="form-check-label" for="material-@material.Id">
+                                                                @material.Name (@(material.UnitPrice) BYN/@(material.Category == "Фурнитура" ? "шт." : material.Category == "Металл" ? "кг" : "м²"))
+                                                            </label>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            }
+                        </div>
+                    </div>
+                    <div class="form-group mt-4 text-center">
+                        <button type="submit" class="btn btn-success">Сохранить изменения <span id="estimatedCost"></span></button>
+                        <a asp-page="./Index" class="btn btn-secondary">Вернуться к списку</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        console.log('FurnitureVariants Raw:', @Html.Raw(Json.Serialize(Model.FurnitureVariants)));
+        console.log('Initial FurnitureType:', '@Model.Order.FurnitureType');
+        console.log('Initial FurnitureVariant:', '@Model.Order.FurnitureVariant');
+        console.log('Raw Model Variant:', @Html.Raw(Json.Serialize(Model.Order.FurnitureVariant)));
+        const furnitureVariants = @Html.Raw(Json.Serialize(Model.FurnitureVariants));
+        const materials = @Html.Raw(Json.Serialize(Model.MaterialViewModels.Select(m => new { id = m.Id.ToString(), Name = m.Name, price = m.UnitPrice, Category = m.Category, Unit = m.Category == "Фурнитура" ? "шт." : m.Category == "Металл" ? "кг" : "м²" })));
+        const materialCategories = @Html.Raw(Json.Serialize(Model.MaterialCategories));
+
+        const phoneInput = document.getElementById('phoneNumber');
+        phoneInput.addEventListener('input', function (e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (!value.startsWith('375')) value = '375' + value.replace(/^375/, '');
+            if (value.length > 3) {
+                value = value.substring(0, 12);
+                let formatted = '+375 (' + value.substring(3, 5);
+                if (value.length > 5) formatted += ') ' + value.substring(5, 8);
+                if (value.length > 8) formatted += '-' + value.substring(8, 10);
+                if (value.length > 10) formatted += '-' + value.substring(10, 12);
+                e.target.value = formatted;
+            } else e.target.value = '+375';
+        });
+        phoneInput.addEventListener('focus', () => !phoneInput.value && (phoneInput.value = '+375'));
+        phoneInput.addEventListener('blur', () => phoneInput.value === '+375' && (phoneInput.value = ''));
+
+        function updateVariants() {
+            const typeSelect = document.getElementById('Order_FurnitureType');
+            const variantSelect = document.getElementById('furnitureVariant');
+            const variantCost = document.getElementById('variantCost');
+            if (!typeSelect || !variantSelect || !variantCost) return;
+
+            const selectedType = typeSelect.value?.trim().toLowerCase() || '';
+            variantSelect.innerHTML = '<option value="">Выберите вариант мебели</option>';
+
+            if (selectedType && furnitureVariants[selectedType]) {
+                // Агрессивная очистка строки
+                let currentVariant = '@Model.Order.FurnitureVariant'.replace(/[^а-яА-Яa-zA-Z\s]/g, '').trim().substring(0, 20); // Только кириллица, латиница, пробелы, обрезка до 20 символов
+                console.log('Step 1: Current Variant:', currentVariant, 'Length:', currentVariant.length);
+
+                furnitureVariants[selectedType].forEach(variant => {
+                    const variantValue = variant.variant.trim();
+                    const option = document.createElement('option');
+                    option.value = variantValue;
+                    option.textContent = variantValue;
+                    if (variantValue === currentVariant) {
+                        option.selected = true;
+                        console.log('Step 2: Selected:', variantValue);
+                    }
+                    variantSelect.appendChild(option);
+                });
+
+                variantCost.textContent = `Средняя стоимость: ${furnitureVariants[selectedType][0].baseCost || 0} BYN`;
+            } else {
+                variantCost.textContent = 'Средняя стоимость: 0 BYN';
+            }
+
+            console.log('Step 3: Final HTML:', variantSelect.outerHTML);
+            updateMaterials();
+            updateEstimatedCost();
+            // Оставим syncVariant отключенным
+            // syncVariant();
+        }
+        function updateMaterials() {
+            const typeSelect = document.getElementById('Order_FurnitureType');
+            const accordion = document.getElementById('materialsAccordion');
+            if (!typeSelect || !accordion) {
+                console.error('Materials elements not found');
+                return;
+            }
+            const selectedType = typeSelect.value?.trim().toLowerCase() || '';
+            const validCategories = materialCategories[selectedType] || [];
+            document.querySelectorAll('.accordion-item').forEach(item => {
+                const category = item.id.replace('accordion-item-', '');
+                item.style.display = validCategories.includes(category) ? 'block' : 'none';
+            });
+            bindCheckboxEvents();
+        }
+
+        function updateEstimatedCost() {
+            const typeSelect = document.getElementById('Order_FurnitureType');
+            const variantSelect = document.getElementById('furnitureVariant');
+            const dimensionsInput = document.getElementById('Order_Dimensions');
+            const estimatedCostSpan = document.getElementById('estimatedCost');
+            let estimatedCost = 0;
+
+            // Базовая стоимость варианта
+            if (variantSelect.value && furnitureVariants[typeSelect.value.toLowerCase()]) {
+                const selectedVariant = furnitureVariants[typeSelect.value.toLowerCase()].find(v => v.variant === variantSelect.value);
+                estimatedCost += selectedVariant ? selectedVariant.baseCost || 0 : 0;
+                console.log('Base cost:', estimatedCost);
+            }
+
+            // Доплата за вес (основана на габаритах)
+            if (dimensionsInput && dimensionsInput.value) {
+                const [width, length, height] = dimensionsInput.value.split('x').map(d => parseFloat(d.trim()) || 0);
+                if (width > 0 && length > 0 && height > 0) {
+                    const volume = (width * length * height) / 1000000; // в м³
+                    const baseWeight = furnitureVariants[typeSelect.value.toLowerCase()]?.find(v => v.variant === variantSelect.value)?.baseWeight || 0;
+                    const weight = baseWeight + (volume * 50); // Простая формула веса
+                    const additionalWeight = weight - baseWeight;
+                    estimatedCost += additionalWeight > 0 ? additionalWeight * 10 : 0; // 10 BYN/кг
+                    console.log('Weight:', weight, 'Additional Weight Cost:', additionalWeight * 10);
+                }
+            }
+
+            // Стоимость материалов
+            const materialCheckboxes = document.querySelectorAll('.material-checkbox:checked');
+            materialCheckboxes.forEach(checkbox => {
+                const materialId = checkbox.value;
+                const material = materials.find(m => m.id === materialId);
+                if (material) {
+                    estimatedCost += material.price || 0; // Используем price
+                    console.log(`Material ${material.Name}: +${material.price} BYN`);
+                }
+            });
+
+            estimatedCostSpan.textContent = estimatedCost > 0 ? `(Примерная стоимость: ${estimatedCost.toFixed(2)} BYN)` : '';
+            console.log('Final estimated cost:', estimatedCost);
+        }
+
+        function bindCheckboxEvents() {
+            document.querySelectorAll('.material-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', updateEstimatedCost);
+            });
+        }
+
+        function syncVariant() {
+            const variantSelect = document.getElementById('furnitureVariant');
+            const existingHidden = variantSelect.parentElement.querySelector('input[name="Order.FurnitureVariant"]');
+            if (existingHidden) existingHidden.remove();
+            const hiddenInput = document.createElement('input');
+            hiddenInput.type = 'hidden';
+            hiddenInput.name = 'Order.FurnitureVariant';
+            hiddenInput.value = variantSelect.value || '';
+            variantSelect.parentElement.appendChild(hiddenInput);
+            console.log('Sync Variant Value:', variantSelect.value); // Отладка значения после синхронизации
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM Loaded, starting updateVariants');
+            updateVariants();
+            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            tooltipTriggerList.map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+            bindCheckboxEvents();
+        });
+    </script>
+}

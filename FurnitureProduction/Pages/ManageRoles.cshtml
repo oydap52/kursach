@@ -1,0 +1,80 @@
+﻿@page
+@model FurnitureProduction.Pages.ManageRolesModel
+@{
+    ViewData["Title"] = "Редактирование ролей";
+}
+
+<h1 class="text-center mb-4">@ViewData["Title"]</h1>
+
+@if (TempData["success"] != null && (bool)TempData["success"])
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        Роль успешно изменена!
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (!ModelState.IsValid)
+{
+    <div class="alert alert-danger">
+        @Html.ValidationSummary()
+    </div>
+}
+
+<div class="card shadow-sm p-4 mx-auto" style="max-width: 800px;">
+    @if (Model.Users.Any())
+    {
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>Текущая роль</th>
+                    <th>Новая роль</th>
+                    <th>Действие</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model.Users)
+                {
+                    <tr>
+                        <td>@user.Email</td>
+                        <td>@user.CurrentRole</td>
+                        <td>
+                            <form method="post">
+                                <input type="hidden" name="userId" value="@user.Id" />
+                                <select name="newRole" class="form-select" onchange="this.form.submit()">
+                                    <option value="User" selected="@(user.NewRole == "User" ? "selected" : null)">User</option>
+                                    <option value="Admin" selected="@(user.NewRole == "Admin" ? "selected" : null)">Admin</option>
+                                </select>
+                            </form>
+                        </td>
+                        <td>
+                            @if (user.NewRole != user.CurrentRole)
+                            {
+                                <span class="text-muted">Изменения сохранены</span>
+                            }
+                            else
+                            {
+                                <span class="text-muted">Нет изменений</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-info text-center">
+            Пользователи не найдены.
+        </div>
+    }
+</div>
+
+<script>
+    document.querySelectorAll('select[name="newRole"]').forEach(select => {
+        select.addEventListener('change', function () {
+            this.form.submit();
+        });
+    });
+</script>

@@ -1,0 +1,58 @@
+﻿@page "{id:int}"
+@model FurnitureProduction.Pages.Materials.EditModel
+@{
+    ViewData["Title"] = "Редактирование";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm p-4 mt-5">
+                <h2 class="text-center mb-4" style="color: #3e2c1f;">@ViewData["Title"]</h2>
+
+                <h4 class="mb-3">Материал</h4>
+                <hr />
+
+                <form method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Material.Id" />
+                    <div class="form-group mb-3">
+                        <label asp-for="Material.Name" class="control-label"></label>
+                        <input asp-for="Material.Name" class="form-control" required />
+                        <span asp-validation-for="Material.Name" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="Material.Type" class="control-label"></label>
+                        <input asp-for="Material.Type" class="form-control" required />
+                        <span asp-validation-for="Material.Type" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="Material.Quantity" class="control-label"></label>
+                        <input asp-for="Material.Quantity" class="form-control" type="number" min="0" required />
+                        <span asp-validation-for="Material.Quantity" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="Material.UnitPrice" class="control-label"></label>
+                        <input asp-for="Material.UnitPrice" class="form-control" type="number" step="0.01" min="0.01" required />
+                        <span asp-validation-for="Material.UnitPrice" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="Material.Supplier" class="control-label"></label>
+                        <input asp-for="Material.Supplier" class="form-control" required />
+                        <span asp-validation-for="Material.Supplier" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mt-4 text-center">
+                        <input type="submit" value="Сохранить" class="btn btn-success" />
+                        <a asp-page="/Warehouse/Index" class="btn btn-secondary ms-2">Вернуться к списку</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

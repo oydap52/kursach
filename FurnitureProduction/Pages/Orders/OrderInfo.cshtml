@@ -1,0 +1,73 @@
+﻿@page "{id:int}"
+@model FurnitureProduction.Pages.Orders.OrderInfoModel
+@{
+    ViewData["Title"] = "Информация о заказе";
+}
+
+<div class="container py-4">
+    <h1 class="mb-4 text-center" style="color: #3e2c1f;">Информация о заказе #@Model.Order.Id</h1>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">Клиент</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Order.ClientName)</dd>
+                <dt class="col-sm-3">Телефон</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Order.PhoneNumber)</dd>
+                <dt class="col-sm-3">Тип мебели</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Order.FurnitureType)</dd>
+                <dt class="col-sm-3">Вариант мебели</dt>
+                <dd class="col-sm-9">@(string.IsNullOrEmpty(Model.Order.FurnitureVariant) ? "Не указан" : Model.Order.FurnitureVariant)</dd>
+                <dt class="col-sm-3">Габариты</dt>
+                <dd class="col-sm-9">@(string.IsNullOrEmpty(Model.Order.Dimensions) ? "Не указаны" : Model.Order.Dimensions)</dd>
+                <dt class="col-sm-3">Статус</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Order.Status)</dd>
+                <dt class="col-sm-3">Дата заказа</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Order.OrderDate)</dd>
+                <dt class="col-sm-3">Стоимость</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Order.TotalCost) BYN</dd>
+                <dt class="col-sm-3">Вес</dt>
+                <dd class="col-sm-9">@(Model.Order.Weight.HasValue ? $"{Model.Order.Weight.Value:F2} кг" : "Не указан")</dd>
+                <dt class="col-sm-3">Ответственный работник</dt>
+                <dd class="col-sm-9">@(Model.Order.Employee != null ? Model.Order.Employee.FullName : "Не назначен")</dd>
+                <dt class="col-sm-3">Материалы</dt>
+                <dd class="col-sm-9">
+                    @if (Model.Order.OrderMaterials != null && Model.Order.OrderMaterials.Any())
+                    {
+                        @string.Join(", ", Model.Order.OrderMaterials.Select(om => om.Material?.Name ?? "Неизвестный материал"))
+                    }
+                    else
+                    {
+                        <span>Нет материалов</span>
+                    }
+                </dd>
+            </dl>
+        </div>
+    </div>
+
+    <div class="mt-4 text-center">
+        <a asp-page="/UserCabinet" class="btn btn-secondary">Вернуться к списку</a>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

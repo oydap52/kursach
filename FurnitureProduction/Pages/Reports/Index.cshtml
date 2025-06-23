@@ -1,0 +1,99 @@
+﻿@page
+@model FurnitureProduction.Pages.Reports.IndexModel
+@{
+    ViewData["Title"] = "Отчеты";
+}
+
+<h1>Отчеты</h1>
+
+<h3>Выбор периода</h3>
+<form method="get" class="mb-4">
+    <div class="row">
+        <div class="col-md-4">
+            <label class="form-label">Дата начала</label>
+            <input type="date" class="form-control" name="startDate" value="@Model.StartDate?.ToString("yyyy-MM-dd")" />
+        </div>
+        <div class="col-md-4">
+            <label class="form-label">Дата окончания</label>
+            <input type="date" class="form-control" name="endDate" value="@Model.EndDate?.ToString("yyyy-MM-dd")" />
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary mt-4">Фильтровать</button>
+        </div>
+    </div>
+</form>
+
+<h3>Общая статистика</h3>
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Всего заказов</h5>
+                <p class="card-text">@Model.TotalOrders</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Всего работников</h5>
+                <p class="card-text">@Model.TotalEmployees</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Всего материалов</h5>
+                <p class="card-text">@Model.TotalMaterials</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h3 class="mt-5">Подробный отчет по заказам</h3>
+<table class="table table-striped table-hover">
+    <thead class="table-light">
+        <tr>
+            <th>Номер заказа</th>
+            <th>Имя клиента</th>
+            <th>Тип мебели</th>
+            <th>Вариант мебели</th>
+            <th>Дата заказа</th>
+            <th>Общая стоимость</th>
+            <th>Статус</th>
+            <th>Ответственный работник</th>
+            <th>Используемые материалы</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var report in Model.OrderReports)
+        {
+            <tr>
+                <td>@report.OrderId</td>
+                <td>@report.ClientName</td>
+                <td>@report.FurnitureType</td>
+                <td>@report.FurnitureVariant</td>
+                <td>@report.OrderDate?.ToString("dd.MM.yyyy")</td>
+                <td>@(report.TotalCost.HasValue ? $"{report.TotalCost.Value:F2}" : "Не указано")</td>
+                <td>@report.Status</td>
+                <td>@report.EmployeeName</td>
+                <td>
+                    @if (report.MaterialsUsed.Any())
+                    {
+                        <ul class="list-unstyled mb-0">
+                            @foreach (var material in report.MaterialsUsed)
+                            {
+                                <li>@material.Name</li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <span>Нет материалов</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

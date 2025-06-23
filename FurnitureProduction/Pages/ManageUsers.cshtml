@@ -1,0 +1,52 @@
+﻿@page
+@model FurnitureProduction.Pages.ManageUsersModel
+@{
+    ViewData["Title"] = "Управление пользователями";
+    Layout = "/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <h1 class="mb-4">@ViewData["Title"]</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Роль</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model.Users)
+            {
+                // Получаем роли пользователя заранее
+                var userRoles = await Model.GetUserRolesAsync(user);
+                var isUserRole = userRoles.Contains("User");
+                var isAdminRole = userRoles.Contains("Admin");
+
+                <tr>
+                    <td>@user.Email</td>
+                    <td>@string.Join(", ", userRoles)</td>
+                    <td>
+                        <form method="post" asp-page-handler="SetRole">
+                            <input type="hidden" name="userId" value="@user.Id" />
+                            <select name="role" class="form-control">
+                                <option value="User" selected="@isUserRole">User</option>
+                                <option value="Admin" selected="@isAdminRole">Admin</option>
+                            </select>
+                            <button type="submit" class="btn btn-primary mt-2">Сохранить роль</button>
+                        </form>
+                        <form method="post" asp-page-handler="ResetPassword" class="mt-2">
+                            <input type="hidden" name="userId" value="@user.Id" />
+                            <input type="text" name="newPassword" class="form-control mt-2" placeholder="Новый пароль" required />
+                            <button type="submit" class="btn btn-warning mt-2">Сбросить пароль</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

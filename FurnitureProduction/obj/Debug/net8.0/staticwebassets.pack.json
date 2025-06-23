@@ -1,0 +1,337 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\FurnitureProduction.bundle.scp.css",
+      "PackagePath": "staticwebassets\\FurnitureProduction.bundle.scp.css"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\css\\site.css",
+      "PackagePath": "staticwebassets\\css\\site.css"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\favicon.ico",
+      "PackagePath": "staticwebassets\\favicon.ico"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\fonts\\ARIALN.TTF",
+      "PackagePath": "staticwebassets\\fonts\\ARIALN.TTF"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\fonts\\ARIALNB.TTF",
+      "PackagePath": "staticwebassets\\fonts\\ARIALNB.TTF"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\fonts\\ARIALNBI.TTF",
+      "PackagePath": "staticwebassets\\fonts\\ARIALNBI.TTF"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\fonts\\ARIALNI.TTF",
+      "PackagePath": "staticwebassets\\fonts\\ARIALNI.TTF"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\fonts\\arial.ttf",
+      "PackagePath": "staticwebassets\\fonts\\arial.ttf"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\fonts\\arialbd.ttf",
+      "PackagePath": "staticwebassets\\fonts\\arialbd.ttf"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\fonts\\arialbi.ttf",
+      "PackagePath": "staticwebassets\\fonts\\arialbi.ttf"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\fonts\\ariali.ttf",
+      "PackagePath": "staticwebassets\\fonts\\ariali.ttf"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\fonts\\ariblk.ttf",
+      "PackagePath": "staticwebassets\\fonts\\ariblk.ttf"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\images\\index.png",
+      "PackagePath": "staticwebassets\\images\\index.png"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\images\\kids_room.png",
+      "PackagePath": "staticwebassets\\images\\kids_room.png"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\images\\kitchen.png",
+      "PackagePath": "staticwebassets\\images\\kitchen.png"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\images\\logo.png",
+      "PackagePath": "staticwebassets\\images\\logo.png"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\images\\office.png",
+      "PackagePath": "staticwebassets\\images\\office.png"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\images\\other_furniture.png",
+      "PackagePath": "staticwebassets\\images\\other_furniture.png"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\images\\shelf.png",
+      "PackagePath": "staticwebassets\\images\\shelf.png"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\images\\table.png",
+      "PackagePath": "staticwebassets\\images\\table.png"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\images\\договор.png",
+      "PackagePath": "staticwebassets\\images\\договор.png"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\js\\site.js",
+      "PackagePath": "staticwebassets\\js\\site.js"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\bootstrap\\LICENSE",
+      "PackagePath": "staticwebassets\\lib\\bootstrap"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.js"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.js.map"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map",
+      "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\jquery-validation\\LICENSE.md",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\LICENSE.md"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.js"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.min.js"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.js"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.min.js"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\jquery\\LICENSE.txt",
+      "PackagePath": "staticwebassets\\lib\\jquery\\LICENSE.txt"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\jquery\\dist\\jquery.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.js"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\jquery\\dist\\jquery.min.js",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.js"
+    },
+    {
+      "Id": "C:\\Users\\Илья\\source\\repos\\FurnitureProduction\\FurnitureProduction\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
+      "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.FurnitureProduction.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.FurnitureProduction.props",
+      "PackagePath": "build\\FurnitureProduction.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.FurnitureProduction.props",
+      "PackagePath": "buildMultiTargeting\\FurnitureProduction.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.FurnitureProduction.props",
+      "PackagePath": "buildTransitive\\FurnitureProduction.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

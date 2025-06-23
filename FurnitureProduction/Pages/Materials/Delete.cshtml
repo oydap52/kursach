@@ -1,0 +1,41 @@
+﻿@page "{id:int}"
+@model FurnitureProduction.Pages.Materials.DeleteModel
+@{
+    ViewData["Title"] = "Удаление материала";
+}
+
+<div class="container py-4">
+    <h1 class="mb-4 text-center" style="color: #3e2c1f;">Удаление материала #@Model.Material.Id</h1>
+
+    <div class="alert alert-warning" role="alert">
+        <h4 class="alert-heading">Подтверждение удаления</h4>
+        <p>Вы уверены, что хотите удалить этот материал? Это действие нельзя отменить.</p>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">Название</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Material.Name)</dd>
+                <dt class="col-sm-3">Тип</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Material.Type)</dd>
+                <dt class="col-sm-3">Количество</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Material.Quantity)</dd>
+                <dt class="col-sm-3">Цена за единицу</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Material.UnitPrice)</dd>
+                <dt class="col-sm-3">Поставщик</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Material.Supplier)</dd>
+            </dl>
+        </div>
+    </div>
+
+    <form method="post" class="mt-4 text-center">
+        <input type="hidden" asp-for="Material.Id" />
+        <button type="submit" class="btn btn-danger">Удалить</button>
+        <a asp-page="/Warehouse/Index" class="btn btn-secondary ms-2">Отмена</a>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

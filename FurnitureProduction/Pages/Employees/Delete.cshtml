@@ -1,0 +1,41 @@
+﻿@page "{id:int}"
+@model FurnitureProduction.Pages.Employees.DeleteModel
+@{
+    ViewData["Title"] = "Удаление работника";
+}
+
+<div class="container py-4">
+    <h1 class="mb-4 text-center" style="color: #3e2c1f;">Удаление работника #@Model.Employee.Id</h1>
+
+    <div class="alert alert-warning" role="alert">
+        <h4 class="alert-heading">Подтверждение удаления</h4>
+        <p>Вы уверены, что хотите удалить этого работника? Это действие нельзя отменить.</p>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">Имя</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Employee.FullName)</dd>
+                <dt class="col-sm-3">Должность</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Employee.Position)</dd>
+                <dt class="col-sm-3">Отдел</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Employee.Department)</dd>
+                <dt class="col-sm-3">Зарплата</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Employee.Salary) BYN</dd>
+                <dt class="col-sm-3">Дата приема</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Employee.HireDate)</dd>
+            </dl>
+        </div>
+    </div>
+
+    <form method="post" class="mt-4 text-center">
+        <input type="hidden" asp-for="Employee.Id" />
+        <button type="submit" class="btn btn-danger">Удалить</button>
+        <a asp-page="./Index" class="btn btn-secondary ms-2">Отмена</a>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

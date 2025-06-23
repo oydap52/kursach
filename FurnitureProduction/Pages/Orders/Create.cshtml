@@ -1,0 +1,463 @@
+﻿@page
+@model FurnitureProduction.Pages.Orders.CreateModel
+@using FurnitureProduction.Models
+@{
+    ViewData["Title"] = "Создать заявку";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm p-4 mt-5" style="border-radius: 15px; transition: all 0.3s ease;">
+                <h2 class="text-center mb-4" style="color: #3e2c1f;">Создать заявку</h2>
+
+                <form id="orderForm" method="post">
+                    <div class="form-group mb-3">
+                        <label asp-for="Order.ClientName" class="control-label">Имя клиента</label>
+                        <input asp-for="Order.ClientName" class="form-control" value="@Model.Order.ClientName" readonly required />
+                        <span asp-validation-for="Order.ClientName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="Order.PhoneNumber" class="control-label">Номер телефона</label>
+                        <input asp-for="Order.PhoneNumber" class="form-control phone-input" id="phoneNumber" placeholder="+375 (XX) XXX-XX-XX" required />
+                        <span asp-validation-for="Order.PhoneNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="Order.FurnitureType" class="control-label">Тип мебели</label>
+                        <select asp-for="Order.FurnitureType" class="form-control" asp-items="@Model.FurnitureTypes" onchange="updateVariants()" required>
+                            <option value="">Выберите тип мебели</option>
+                        </select>
+                        <span asp-validation-for="Order.FurnitureType" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="Order.FurnitureVariant" class="control-label">Вариант мебели</label>
+                        <select id="furnitureVariant" asp-for="Order.FurnitureVariant" class="form-control" onchange="updateEstimatedCost()" required>
+                            <option value="">Выберите вариант мебели</option>
+                        </select>
+                        <span asp-validation-for="Order.FurnitureVariant" class="text-danger"></span>
+                        <small id="variantCost" class="text-muted">Средняя стоимость: 0 BYN</small>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label asp-for="Order.Dimensions" class="control-label">Размеры</label>
+                        <div class="input-group">
+                            <input asp-for="Order.Dimensions" class="form-control" placeholder="Ширина x Длина x Высота (см, например, 200x150x80)" required onchange="updateEstimatedCost()" />
+                            <span class="input-group-text" data-bs-toggle="tooltip" data-bs-placement="right" title="Габариты влияют на стоимость: за м² — 50 BYN, высота > 100 см добавляет 15%, > 150 см — 30%.">ℹ️</span>
+                        </div>
+                        <span asp-validation-for="Order.Dimensions" class="text-danger"></span>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label>Выберите материалы для изготовления:</label>
+                        <div class="accordion" id="materialsAccordion">
+                            @{
+                                var allCategories = new[] { "Композиты", "Древесина", "Металл", "Ткань", "Фурнитура", "Отделка", "Стекло", "Наполнитель" };
+                                foreach (var category in allCategories)
+                                {
+                                    var materials = (Model.MaterialViewModels ?? new List<CreateModel.MaterialViewModel>()).Where(m => m.Category == category).ToList();
+                                    if (materials.Any())
+                                    {
+                                        <div class="accordion-item" id="accordion-item-@category" style="display: none; transition: all 0.3s ease;">
+                                            <h2 class="accordion-header" id="heading-@category">
+                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@category" aria-expanded="false" aria-controls="collapse-@category">
+                                                    @category
+                                                </button>
+                                            </h2>
+                                            <div id="collapse-@category" class="accordion-collapse collapse" aria-labelledby="heading-@category" data-bs-parent="#materialsAccordion">
+                                                <div class="accordion-body">
+                                                    @foreach (var material in materials)
+                                                    {
+                                                        <div class="form-check">
+                                                            <input type="checkbox" name="SelectedMaterialIds" value="@material.Id" class="form-check-input material-checkbox" id="material-@material.Id" onchange="updateEstimatedCost()">
+                                                            <label class="form-check-label" for="material-@material.Id">
+                                                                @material.Name (@(material.UnitPrice) BYN/@(material.Category == "Фурнитура" ? "шт." : material.Category == "Металл" ? "кг" : "м²"))
+                                                            </label>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            }
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <h3 class="text-center mb-3" style="color: #3e2c1f;">Способ доставки</h3>
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle w-100 text-start" type="button" id="deliveryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Выберите способ доставки
+                                </button>
+                                <ul class="dropdown-menu w-100" aria-labelledby="deliveryDropdown">
+                                    <li>
+                                        <div class="form-check">
+                                            <input type="radio" name="DeliveryMethod" value="Pickup" class="form-check-input" id="deliveryPickup" onchange="updateDeliveryAndPayment()" required>
+                                            <label class="form-check-label" for="deliveryPickup">Самовывоз</label>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="form-check">
+                                            <input type="radio" name="DeliveryMethod" value="Courier" class="form-check-input" id="deliveryCourier" onchange="updateDeliveryAndPayment()" required>
+                                            <label class="form-check-label" for="deliveryCourier">Курьер</label>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <span id="deliveryError" class="text-danger"></span>
+                            </div>
+                            <div id="pickupAddress" class="mt-3" style="display: none;">
+                                <h5 class="text-muted">Адрес цеха:</h5>
+                                <p>г. Минск, ул. Колесникова 3, цех 419</p>
+                            </div>
+                            <div id="courierForm" class="card p-3 mt-3" style="display: none; border-color: #d4af37; transition: all 0.3s ease;">
+                                <div class="form-group mb-2">
+                                    <label for="deliveryAddress" class="control-label">Адрес доставки</label>
+                                    <input type="text" class="form-control" id="deliveryAddress" name="DeliveryAddress" placeholder="г. Минск, ул. Примерная, д. 10, кв. 5" />
+                                    <span id="deliveryAddressError" class="text-danger"></span>
+                                </div>
+                                <div class="form-group mb-2">
+                                    <label for="deliveryDate" class="control-label">Желаемая дата доставки</label>
+                                    <input type="date" class="form-control" id="deliveryDate" name="DeliveryDate" />
+                                    <span id="deliveryDateError" class="text-danger"></span>
+                                </div>
+                                <div class="form-group mb-2">
+                                    <label for="deliveryTime" class="control-label">Желаемое время</label>
+                                    <input type="time" class="form-control" id="deliveryTime" name="DeliveryTime" />
+                                    <span id="deliveryTimeError" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h3 class="text-center mb-3" style="color: #3e2c1f;">Способ оплаты</h3>
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle w-100 text-start" type="button" id="paymentDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Выберите способ оплаты
+                                </button>
+                                <ul class="dropdown-menu w-100" id="paymentOptions" aria-labelledby="paymentDropdown">
+                                    <!-- Опции будут генерироваться через JavaScript -->
+                                </ul>
+                                <span id="paymentError" class="text-danger"></span>
+                            </div>
+                            <div id="cardPaymentForm" class="card p-3 mt-3" style="display: none; border-color: #d4af37; transition: all 0.3s ease;">
+                                <div class="form-group mb-2">
+                                    <label asp-for="CardNumber" class="control-label">Номер карты</label>
+                                    <input asp-for="CardNumber" class="form-control card-number" placeholder="1234 1234 1234 1234" />
+                                    <span asp-validation-for="CardNumber" class="text-danger"></span>
+                                </div>
+                                <div class="form-group mb-2">
+                                    <label asp-for="ExpiryDate" class="control-label">Срок действия (ММ/ГГ)</label>
+                                    <input asp-for="ExpiryDate" class="form-control expiry-date" placeholder="12/25" />
+                                    <span asp-validation-for="ExpiryDate" class="text-danger"></span>
+                                </div>
+                                <div class="form-group mb-2">
+                                    <label asp-for="CVV" class="control-label">CVV</label>
+                                    <input asp-for="CVV" class="form-control cvv" placeholder="123" />
+                                    <span asp-validation-for="CVV" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group mt-4 text-center">
+                        <button type="submit" class="btn btn-success" id="submitButton">Отправить заявку <span id="estimatedCost"></span></button>
+                    </div>
+                    <div id="generalError" class="text-danger text-center mt-2"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        const furnitureVariants = @Html.Raw(Json.Serialize(Model.FurnitureVariants));
+        const materials = @Html.Raw(Json.Serialize((Model.MaterialViewModels ?? new List<CreateModel.MaterialViewModel>()).Select(m => new { id = m.Id.ToString(), Name = m.Name, Price = m.UnitPrice, Category = m.Category, Unit = m.Category == "Фурнитура" ? "шт." : m.Category == "Металл" ? "кг" : "м²" })));
+        const materialCategories = @Html.Raw(Json.Serialize(Model.MaterialCategories));
+        const currentDate = new Date().toISOString().split('T')[0];
+
+        $('.card-number').on('input', function (e) {
+            let value = $(this).val().replace(/\D/g, '').substring(0, 16);
+            let formatted = value.match(/.{1,4}/g)?.join(' ') || '';
+            $(this).val(formatted);
+            validateCardNumber();
+        });
+
+        $('.expiry-date').on('input', function (e) {
+            let value = $(this).val().replace(/\D/g, '').substring(0, 4);
+            if (value.length > 2) {
+                value = value.substring(0, 2) + '/' + value.substring(2);
+            }
+            $(this).val(value);
+            validateExpiryDate();
+        });
+
+        $('.cvv').on('input', function (e) {
+            let value = $(this).val().replace(/\D/g, '').substring(0, 3);
+            $(this).val(value);
+            validateCVV();
+        });
+
+        $('#phoneNumber').on('input', function (e) {
+            let value = $(this).val().replace(/\D/g, '');
+            if (!value.startsWith('375')) value = '375' + value.replace(/^375/, '');
+            if (value.length > 3) {
+                value = value.substring(0, 12);
+                let formatted = '+375 (' + value.substring(3, 5);
+                if (value.length > 5) formatted += ') ' + value.substring(5, 8);
+                if (value.length > 8) formatted += '-' + value.substring(8, 10);
+                if (value.length > 10) formatted += '-' + value.substring(10, 12);
+                $(this).val(formatted);
+            } else $(this).val('+375');
+        }).on('focus', () => !$(this).val() && $(this).val('+375')).on('blur', () => $(this).val() === '+375' && $(this).val(''));
+
+        function updateVariants() {
+            const typeSelect = $('#Order_FurnitureType');
+            const variantSelect = $('#furnitureVariant');
+            const variantCost = $('#variantCost');
+            variantSelect.html('<option value="">Выберите вариант мебели</option>');
+            variantCost.text('Средняя стоимость: 0 BYN');
+            const selectedType = typeSelect.val()?.trim().toLowerCase() || '';
+            if (selectedType && furnitureVariants[selectedType]) {
+                furnitureVariants[selectedType].forEach(variant => {
+                    variantSelect.append($('<option>', { value: variant.variant, text: variant.variant || 'Неизвестно' }));
+                });
+                variantCost.text(`Средняя стоимость: ${furnitureVariants[selectedType][0].baseCost || 0} BYN`);
+            }
+            updateMaterials();
+            updateEstimatedCost();
+            bindCheckboxEvents();
+        }
+
+        function updateMaterials() {
+            const typeSelect = $('#Order_FurnitureType');
+            const accordion = $('#materialsAccordion');
+            const selectedType = typeSelect.val()?.trim().toLowerCase() || '';
+            const validCategories = materialCategories[selectedType] || [];
+            $('.accordion-item').each(function () {
+                const category = $(this).attr('id').replace('accordion-item-', '');
+                $(this).toggle(validCategories.includes(category));
+            });
+            bindCheckboxEvents();
+        }
+
+        function updateEstimatedCost() {
+            const typeSelect = $('#Order_FurnitureType');
+            const variantSelect = $('#furnitureVariant');
+            const dimensionsInput = $('#Order_Dimensions');
+            const deliveryMethod = $('input[name="DeliveryMethod"]:checked').val();
+            const estimatedCostSpan = $('#estimatedCost');
+            let estimatedCost = 0;
+
+            if (variantSelect.val() && furnitureVariants[typeSelect.val().toLowerCase()]) {
+                const selectedVariant = furnitureVariants[typeSelect.val().toLowerCase()].find(v => v.variant === variantSelect.val());
+                estimatedCost += selectedVariant ? selectedVariant.baseCost || 0 : 0;
+            }
+
+            if (dimensionsInput.val()) {
+                const [width, length, height] = dimensionsInput.val().split('x').map(d => parseFloat(d.trim()) || 0);
+                if (width > 0 && length > 0 && height > 0) {
+                    const volume = (width * length * height) / 1000000;
+                    const baseWeight = furnitureVariants[typeSelect.val().toLowerCase()]?.find(v => v.variant === variantSelect.val())?.baseWeight || 0;
+                    const weight = baseWeight + (volume * 50);
+                    const additionalWeight = weight - baseWeight;
+                    estimatedCost += additionalWeight > 0 ? additionalWeight * 10 : 0;
+                }
+            }
+
+            $('.material-checkbox:checked').each(function () {
+                const materialId = $(this).val();
+                const material = materials.find(m => m.id === materialId);
+                if (material) estimatedCost += material.price || 0;
+            });
+
+            if (deliveryMethod === "Courier") estimatedCost += 15;
+
+            estimatedCostSpan.text(estimatedCost > 0 ? `(Примерная стоимость: ${estimatedCost.toFixed(2)} BYN)` : '');
+        }
+
+        function togglePaymentForm() {
+            const paymentMethod = $('input[name="PaymentMethod"]:checked').val();
+            $('#cardPaymentForm').toggle(paymentMethod === 'CardOnSite');
+        }
+
+        function updateDeliveryAndPayment() {
+            const deliveryMethod = $('input[name="DeliveryMethod"]:checked').val();
+            $('#pickupAddress').toggle(deliveryMethod === 'Pickup');
+            $('#courierForm').toggle(deliveryMethod === 'Courier');
+            updatePaymentOptions(deliveryMethod);
+        }
+
+        function updatePaymentOptions(deliveryMethod) {
+            const paymentOptions = $('#paymentOptions');
+            paymentOptions.empty();
+
+            const paymentOptionsData = { 'Pickup': ['CardOnSite', 'CashPickup'], 'Courier': ['CardOnSite', 'CashCourier', 'CardCourier', 'CashPickup'] };
+            const availableOptions = paymentOptionsData[deliveryMethod] || ['CardOnSite', 'CashPickup'];
+            const paymentItems = [
+                { id: 'paymentCardOnSite', value: 'CardOnSite', label: 'Картой на сайте' },
+                { id: 'paymentCashCourier', value: 'CashCourier', label: 'Наличными курьеру' },
+                { id: 'paymentCardCourier', value: 'CardCourier', label: 'Картой курьеру' },
+                { id: 'paymentCashPickup', value: 'CashPickup', label: 'Оплата при самовывозе' }
+            ];
+
+            paymentItems.forEach(item => {
+                if (availableOptions.includes(item.value)) {
+                    paymentOptions.append($('<li>').append($('<div>', { class: 'form-check' }).append(
+                        $('<input>', { type: 'radio', name: 'PaymentMethod', value: item.value, class: 'form-check-input', id: item.id, onchange: 'togglePaymentForm()' }),
+                        $('<label>', { class: 'form-check-label', for: item.id, text: item.label })
+                    )));
+                }
+            });
+
+            const selectedPayment = $('input[name="PaymentMethod"]:checked');
+            if (selectedPayment.length && !availableOptions.includes(selectedPayment.val())) {
+                selectedPayment.prop('checked', false);
+                togglePaymentForm();
+            }
+        }
+
+        function bindCheckboxEvents() {
+            $('.material-checkbox').on('change', updateEstimatedCost);
+        }
+
+        function validateCardNumber() {
+            const cardNumberInput = $('.card-number');
+            const cardNumberError = $('[asp-validation-for="CardNumber"]');
+            const value = cardNumberInput.val().replace(/\s/g, '');
+            if (!value) {
+                cardNumberError.text('Поле номера карты обязательно для заполнения.');
+            } else if (value.length < 16) {
+                cardNumberError.text('Номер карты должен содержать 16 цифр.');
+            } else if (!/^\d{16}$/.test(value)) {
+                cardNumberError.text('Номер карты должен содержать только цифры.');
+            } else {
+                cardNumberError.text('');
+            }
+        }
+
+        function validateExpiryDate() {
+            const expiryDateInput = $('.expiry-date');
+            const expiryError = $('[asp-validation-for="ExpiryDate"]');
+            const value = expiryDateInput.val();
+            if (!value) {
+                expiryError.text('Поле срока действия карты обязательно для заполнения.');
+                return;
+            }
+            if (!/^\d{2}\/\d{2}$/.test(value)) {
+                expiryError.text('Введите срок действия в формате ММ/ГГ.');
+                return;
+            }
+            const [month, year] = value.split('/').map(Number);
+            const now = new Date();
+            const currentYear = now.getFullYear();
+            const expiryYear = 2000 + year;
+            if (isNaN(month) || isNaN(year)) {
+                expiryError.text('Некорректный формат срока действия. Используйте ММ/ГГ с числовыми значениями.');
+                return;
+            }
+            if (month < 1 || month > 12) {
+                expiryError.text('Месяц должен быть от 1 до 12.');
+                return;
+            }
+            if (expiryYear < currentYear || expiryYear > currentYear + 15) {
+                expiryError.text('Год должен быть в пределах текущего года и следующих 15 лет.');
+                return;
+            }
+            const expiry = new Date(expiryYear, month - 1, 1);
+            if (expiry <= now) {
+                expiryError.text('Срок действия карты истёк или является некорректным.');
+                return;
+            }
+            expiryError.text('');
+        }
+
+        function validateCVV() {
+            const cvvInput = $('.cvv');
+            const cvvError = $('[asp-validation-for="CVV"]');
+            const value = cvvInput.val();
+            if (!value) {
+                cvvError.text('Поле CVV обязательно для заполнения.');
+            } else if (!/^\d{3}$/.test(value)) {
+                cvvError.text('CVV должен содержать ровно 3 цифры.');
+            } else {
+                cvvError.text('');
+            }
+        }
+
+        function validateForm() {
+            let isValid = true;
+            $('#generalError, #paymentError, #deliveryError, #deliveryAddressError, #deliveryDateError, #deliveryTimeError').text('');
+            const paymentMethod = $('input[name="PaymentMethod"]:checked');
+            if (!paymentMethod) {
+                $('#paymentError').text('Пожалуйста, выберите способ оплаты.');
+                isValid = false;
+            } else if (paymentMethod.val() === 'CardOnSite') {
+                validateCardNumber();
+                validateExpiryDate();
+                validateCVV();
+                if ($('[asp-validation-for="CardNumber"]').text() || $('[asp-validation-for="ExpiryDate"]').text() || $('[asp-validation-for="CVV"]').text()) {
+                    isValid = false;
+                }
+            }
+            const deliveryMethod = $('input[name="DeliveryMethod"]:checked');
+            if (!deliveryMethod) {
+                $('#deliveryError').text('Пожалуйста, выберите способ доставки.');
+                isValid = false;
+            } else if (deliveryMethod.val() === 'Courier') {
+                const deliveryAddress = $('#deliveryAddress').val();
+                const deliveryDate = $('#deliveryDate').val();
+                const deliveryTime = $('#deliveryTime').val();
+                if (!deliveryAddress) {
+                    $('#deliveryAddressError').text('Укажите адрес доставки.');
+                    isValid = false;
+                }
+                if (!deliveryDate || deliveryDate <= currentDate) {
+                    $('#deliveryDateError').text('Дата доставки должна быть в будущем.');
+                    isValid = false;
+                }
+                if (!deliveryTime) {
+                    $('#deliveryTimeError').text('Укажите время доставки.');
+                    isValid = false;
+                }
+            }
+            if (!isValid) $('#generalError').text('Исправьте ошибки перед отправкой.');
+            return isValid;
+        }
+
+        $('#submitButton').on('click', function (e) {
+            e.preventDefault();
+            if (!validateForm()) return;
+
+            const formData = $('#orderForm').serialize();
+            $.ajax({
+                url: '/Orders/Create?handler=OnPostAsync',
+                type: 'POST',
+                data: formData,
+                success: function (response) {
+                    if (response.success) {
+                        if (response.redirectUrl) {
+                            window.location.href = response.redirectUrl + '?orderId=' + @Model.Order?.Id;
+                        }
+                    } else {
+                        response.errors.forEach(error => {
+                            $('#generalError').append('<div>' + error + '</div>');
+                        });
+                    }
+                },
+                error: function () {
+                    $('#generalError').text('Произошла ошибка при отправке. Попробуйте снова.');
+                }
+            });
+        });
+
+        $(document).ready(function () {
+            updateVariants();
+            var tooltipTriggerList = [].slice.call($('[data-bs-toggle="tooltip"]'));
+            tooltipTriggerList.map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+            bindCheckboxEvents();
+            updateDeliveryAndPayment();
+        });
+    </script>
+}

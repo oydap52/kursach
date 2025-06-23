@@ -1,0 +1,25 @@
+
+.logo {
+    height: 50px;
+    width: auto;
+}
+
+.footer {
+    height: 40px;
+    width: auto;
+    margin-bottom: 10px;
+}
+
+    .footer .text-muted {
+        color: #f8f9fa !important; 
+    }
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}

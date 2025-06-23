@@ -1,0 +1,484 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Добро пожаловать";
+    Layout = "/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="hero-section">
+    <div>
+        <h1>Производство мебели на заказ</h1>
+        <p>Создаем уникальную мебель для вашего дома</p>
+        <a asp-area="@(User.Identity?.IsAuthenticated ?? false ? "" : "Identity")" asp-page="@(User.Identity?.IsAuthenticated ?? false ? "/Orders/Create" : "/Account/Login")" class="btn btn-primary btn-lg">Оформить заказ</a>
+    </div>
+</div>
+
+<div class="container my-5">
+    @if (User.Identity?.IsAuthenticated ?? false)
+    {
+        <p class="text-center">Вы вошли как <strong>@User.Identity.Name</strong>.</p>
+    }
+    else
+    {
+        <div class="text-center mb-5">
+            <p>Войдите или зарегистрируйтесь, чтобы оформить заказ.</p>
+            <a asp-area="Identity" asp-page="/Account/Login" class="btn btn-primary">Войти</a>
+        </div>
+    }
+
+    <h2 class="mb-4 text-center" style="color: #3e2c1f;" id="examples">Примеры наших работ</h2>
+    <div class="row g-4">
+        <div class="col-md-4 top-row">
+            <div class="card h-100">
+                <img src="/images/kitchen.png" class="card-img-top" alt="Кухня">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Кухня "Модерн"</h5>
+                    <p class="card-text">Современная кухня с минималистичным дизайном.</p>
+                    <a href="#" class="btn btn-primary btn-sm">Подробнее</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 top-row">
+            <div class="card h-100">
+                <img src="/images/shelf.png" class="card-img-top" alt="Шкаф">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Шкаф-купе</h5>
+                    <p class="card-text">Просторный шкаф с раздвижными дверями.</p>
+                    <a href="#" class="btn btn-primary btn-sm">Подробнее</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 top-row">
+            <div class="card h-100">
+                <img src="/images/table.png" class="card-img-top" alt="Стол">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Обеденный стол</h5>
+                    <p class="card-text">Классический стол из массива дерева.</p>
+                    <a href="#" class="btn btn-primary btn-sm">Подробнее</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 bottom-row">
+            <div class="card h-100">
+                <img src="/images/kids_room.png" class="card-img-top" alt="Детские">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Детские</h5>
+                    <p class="card-text">Безопасная мебель для детей.</p>
+                    <a href="#" class="btn btn-primary btn-sm">Подробнее</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 bottom-row">
+            <div class="card h-100">
+                <img src="/images/office.png" class="card-img-top" alt="Кабинеты и офисы">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Кабинеты и офисы</h5>
+                    <p class="card-text">Эргономичные решения для работы.</p>
+                    <a href="#" class="btn btn-primary btn-sm">Подробнее</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 bottom-row">
+            <div class="card h-100">
+                <img src="/images/other_furniture.png" class="card-img-top" alt="Другая мебель">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Другая мебель</h5>
+                    <p class="card-text">Уникальные изделия на заказ.</p>
+                    <a href="#" class="btn btn-primary btn-sm">Подробнее</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Новый блок "Работаем по договору" -->
+    <div class="contract-section text-center my-5" id="guarantees">
+        <h2 class="contract-title-main">Работаем по договору</h2>
+        <h3 class="contract-title-sub">И даем гарантии</h3>
+        <div class="contract-layout">
+            <div class="contract-left">
+                <div class="contract-item">
+                    <h4 class="contract-number">01</h4>
+                    <h5 class="contract-heading">гарантия производителя</h5>
+                    <p class="contract-text">Производитель дает гарантию на предоставленные материалы.</p>
+                </div>
+                <div class="contract-item">
+                    <h4 class="contract-number">02</h4>
+                    <h5 class="contract-heading">гарантия от нашей кампании</h5>
+                    <p class="contract-text">Мы гарантируем, что работа будет выполнена с высоким качеством.</p>
+                </div>
+            </div>
+            <div class="contract-center">
+                <img src="/images/договор.png" alt="Договор" class="contract-image" />
+            </div>
+            <div class="contract-right">
+                <div class="contract-item">
+                    <h4 class="contract-number">03</h4>
+                    <h5 class="contract-heading">гарантия стоимости</h5>
+                    <p class="contract-text">Мы гарантируем, что цена не изменится после завершения работ</p>
+                </div>
+                <div class="contract-item">
+                    <h4 class="contract-number">04</h4>
+                    <h5 class="contract-heading">гарантия качества</h5>
+                    <p class="contract-text">Мы гарантируем, что работа будет выполнена качественно</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="faq-section my-5" id="faq">
+        <h2 class="faq-title">Часто задаваемые <span>вопросы</span></h2>
+        <div class="faq-container">
+            <div class="faq-left">
+                <div class="faq-item">
+                    <div class="faq-question">Как ухаживать за кухней ?</div>
+                    <div class="faq-answer">Все наши фасады устойчивы к влаге, их легко мыть, нет проблем с влажной уборкой. Вся кромка идеально прилегает к плите, поэтому можно не беспокоиться о том, что на швах и стыках скопится грязь или попадет влага и раздует дерево. Большая толщина пленок затрудняет возможность оставить царапины, а мелкие будут не заметны, в крайнем случае царапины на фасадах в пластике можно заполировать специальными средствами.</div>
+                </div>
+                <hr class="faq-divider">
+                <div class="faq-item">
+                    <div class="faq-question">Чем немецкая фурнитура лучше нашей обычной?</div>
+                    <div class="faq-answer">Немецкая фурнитура позволяет сделать наши кухни более функциональными и долговечными. Вы можете купить кухню, где дверцы будут открываться от нажатия, закрываться сами с большого угла в 35 градусов и закрываться абсолютно бесшумно. Вся фурнитура полностью металлическая, без каких-либо пластиковых деталей, не требует регулировки в течение многих лет и выдерживает нагрузку до 30 кг. Это лишь неполный список преимуществ немецкой фурнитуры, которая безусловно отличается от «нашей обычной» и обходится намного дешевле, чем вы можете себе представить.</div>
+                </div>
+                <hr class="faq-divider">
+                <div class="faq-item">
+                    <div class="faq-question">Какую встраиваемую технику на кухню можно у вас заказать?</div>
+                    <div class="faq-answer">Добрый день. Заказывая мебель в наших салонах, вы имеете возможность укомплектовать их вытяжками фирмы Elikor, мойками из искусственного камня Granfest, Polygran, Tolero, а так же мойками из стали Franke, Seamen и Teka.</div>
+                </div>
+                <hr class="faq-divider">
+                <div class="faq-item">
+                    <div class="faq-question">Насколько экологично ЛДСП, которое вы используете?</div>
+                    <div class="faq-answer">Добрый день! Мы используем ЛДСП Kronostar, у которой класс экологичности Е1. Данный класс говорит о том, что выделение формальдегидов очень мало и, соответственно, ЛДСП, которую мы используем, самая экологичная в мире. Мебель с таким классом эмиссии обычно используют в больницах и детских учреждениях.</div>
+                </div>
+                <hr class="faq-divider">
+                <div class="faq-item">
+                    <div class="faq-question">С какими поставщиками материалов для производства кухонь вы работаете?</div>
+                    <div class="faq-answer">Мы с особым вниманием относимся к выбору поставщиков материалов и комплектующих для наших кухонных гарнитуров. Среди партнеров компании только известные и крупные производители, которые могут гарантировать безопасность и первоклассное качество своей продукции.</div>
+                </div>
+            </div>
+            <div class="faq-right">
+                <div class="faq-item">
+                    <div class="faq-question">Входят ли в комплект шкафа петли для фасадов, ящики выдвижные и ножки под шкаф?</div>
+                    <div class="faq-answer">Добрый день. В комплектацию корпусов компании входят петли для фасадов, ножки под шкаф и выдвижные ящики. Срок поставки у нас в среднем составляет 20-30 рабочих дней, независимо от города.</div>
+                </div>
+                <hr class="faq-divider">
+                <div class="faq-item">
+                    <div class="faq-question">Могу ли я у вас составить дизайн-проект, а заказ мебели сделать у своих знакомых?</div>
+                    <div class="faq-answer">Мы не составляем дизайн-проекты на заказ. Все созданные в нашей компании проекты бесплатные и являются частью заказа на изготовление кухонной мебели.</div>
+                </div>
+                <hr class="faq-divider">
+                <div class="faq-item">
+                    <div class="faq-question">Что представляет собой дизайн-проект?</div>
+                    <div class="faq-answer">Дизайн-проект — это комплект документов, содержащих функциональные, а также дизайнерские решения, необходимые для формирования заказа для производства и задания для сборщиков. Концепция будущего кухонного гарнитура разрабатывается дизайнерами на основе полученной от заказчика информации о технических особенностях помещения и индивидуальных пожеланиях. В конечном итоге дизайн-проект включает в себя чертежи, спецификации (информация о мебели, материалах и фурнитуре) и графическую визуализацию кухонного гарнитура.</div>
+                </div>
+                <hr class="faq-divider">
+                <div class="faq-item">
+                    <div class="faq-question">Можно ли приобрести товар в рассрочку или кредит?</div>
+                    <div class="faq-answer">МЫ предоставляем рассрочку и кредит на товары. По вопросу приобретения товара в кредит обратитесь к нашим менеджерам. Наши специалисты помогут вам ознакомиться с действующими кредитными предложениями.</div>
+                </div>
+                <hr class="faq-divider">
+                <div class="faq-item">
+                    <div class="faq-question">Можно ли заказать мебель для кухни по индивидуальным размерам?</div>
+                    <div class="faq-answer">Добрый день! Вы можете заказать кухню по индивидуальным размерам на заказ, в любом стиле. В процессе создания проекта наши специалисты учитывают все детали: схему коммуникаций, площадь помещения, особенности планировки. Благодаря такому подходу вы можете быть уверены, что рабочее пространство будет удобным, а сама кухня будет сочетать в себе функциональность и эффектный внешний вид.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card {
+        height: 100%;
+    }
+
+    .card-img-top {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .card-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
+    }
+
+    .contract-section {
+        position: relative;
+        padding: 40px 0;
+    }
+
+    .contract-title-main {
+        font-size: 2.5em;
+        font-weight: bold;
+        color: #000;
+        margin-bottom: 0;
+    }
+
+    .contract-title-sub {
+        font-size: 1.5em;
+        color: #f4a261;
+        font-weight: bold;
+        margin-top: 5px;
+    }
+
+    .contract-layout {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 20px;
+        margin-top: 20px;
+    }
+
+    .contract-center {
+        flex-shrink: 0;
+    }
+
+    .contract-image {
+        width: 400px;
+        height: 400px;
+        object-fit: cover;
+        display: block;
+    }
+
+    .contract-left, .contract-right {
+        width: 250px; /* Фиксированная ширина блоков */
+        padding: 20px;
+        background-color: #f5f5f0; /* Задний фон как у главной страницы */
+        position: relative;
+    }
+
+    .contract-item {
+        margin-bottom: 20px;
+    }
+
+    .contract-number {
+        font-size: 2em;
+        color: #f4a261; /* Оранжевый, как кнопка "Подробнее" */
+        font-weight: bold; /* Добавлена жирность */
+        margin: 0 0 10px 0;
+    }
+
+    .contract-heading {
+        font-size: 1.3em; /* Увеличен размер текста */
+        font-weight: 600;
+        margin: 0 0 5px 0;
+        color: #000;
+        text-align: left; /* Выравнивание по левой стороне */
+        text-transform: lowercase; /* Маленькие буквы */
+    }
+
+    .contract-text {
+        font-size: 1.1em; /* Увеличен размер текста */
+        margin: 0;
+        color: #000;
+    }
+
+    /* Выравнивание текста по левой стороне */
+    .contract-left .contract-text {
+        text-align: left;
+    }
+
+    .contract-right .contract-text {
+        text-align: left;
+    }
+
+    /* Оранжевые уголки */
+    .contract-left {
+        border-left: 2px solid #f4a261; /* Окантовка слева */
+        border-bottom: 2px solid #f4a261; /* Окантовка снизу */
+    }
+
+    .contract-right {
+        border-top: 2px solid #f4a261; /* Окантовка сверху */
+        border-right: 2px solid #f4a261; /* Окантовка справа */
+    }
+
+    /* Анимации */
+    .hero-section h1, .hero-section p, .contract-title-main, .contract-title-sub, .faq-title {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 1s ease, transform 1.4s ease; /* Увеличена длительность до 1s для плавности */
+    }
+
+    .top-row, .bottom-row {
+        opacity: 0;
+        transform: translateX(-100px);
+        transition: opacity 1s ease, transform 1.9s ease; /* Увеличена длительность до 1s */
+    }
+
+    .contract-left {
+        opacity: 0;
+        transform: translateX(-100px);
+        transition: opacity 1s ease, transform 1s ease; /* Увеличена длительность до 1s */
+    }
+
+    .contract-right {
+        opacity: 0;
+        transform: translateX(100px);
+        transition: opacity 1s ease, transform 1s ease; /* Увеличена длительность до 1s */
+    }
+
+    .contract-center {
+        opacity: 0;
+        transition: opacity 1s ease 1.3s; /* Задержка 0.5s, длительность 1s */
+    }
+
+    .container h2 {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 1s ease, transform 1s ease; /* Увеличена длительность до 1s */
+    }
+
+        .hero-section h1.animate, .hero-section p.animate, .container h2.animate, .contract-title-main.animate, .contract-title-sub.animate, .faq-title.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+    .top-row.animate {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    .bottom-row.animate {
+        opacity: 1;
+        transform: translateX(0);
+        transition-delay: 0.3s; /* Задержка для нижнего ряда */
+    }
+
+    .contract-left.animate {
+        opacity: 1;
+        transform: translateX(0);
+        transition-delay: 0.6s; /* Задержка для левого блока */
+    }
+
+    .contract-right.animate {
+        opacity: 1;
+        transform: translateX(0);
+        transition-delay: 1s; /* Задержка для правого блока */
+    }
+
+    .contract-center.animate {
+        opacity: 1;
+    }
+
+    /* Стили для FAQ */
+    .faq-section {
+        padding: 40px 0;
+    }
+
+    .faq-title {
+        font-size: 2.5em;
+        font-weight: bold;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+        .faq-title span {
+            color: #f4a261; /* Оранжевый цвет для "вопросы" */
+        }
+
+    .faq-container {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+    }
+
+    .faq-left, .faq-right {
+        width: 45%;
+    }
+
+    .faq-item {
+        margin-bottom: 20px;
+    }
+
+    .faq-question {
+        font-size: 1.2em;
+        font-weight: 600;
+        color: #000;
+        cursor: pointer;
+        padding: 10px;
+        display: flex;
+        align-items: center;
+        transition: color 0.3s ease;
+    }
+
+        .faq-question::before {
+            content: '▼'; /* Птичка вниз */
+            font-size: 0.8em;
+            margin-right: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-question.active::before {
+            transform: rotate(180deg); /* Птичка вверх при активном состоянии */
+        }
+
+        .faq-question.active {
+            color: #f4a261; /* Оранжевый цвет при выборе */
+        }
+
+    .faq-answer {
+        display: none;
+        padding: 10px 10px 10px 30px;
+        font-size: 1em;
+        color: #333;
+        line-height: 1.5;
+    }
+
+        .faq-answer.active {
+            display: block;
+        }
+
+    .faq-divider {
+        border: 0;
+        height: 1px;
+        background: #ccc;
+        margin: 0;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        const heroTitles = document.querySelectorAll('.hero-section h1, .hero-section p');
+        heroTitles.forEach(element => observer.observe(element));
+
+        observer.observe(document.querySelector('.container h2'));
+
+        const topRow = document.querySelectorAll('.top-row');
+        const bottomRow = document.querySelectorAll('.bottom-row');
+        topRow.forEach(card => observer.observe(card));
+        bottomRow.forEach(card => observer.observe(card));
+
+        observer.observe(document.querySelector('.contract-title-main'));
+        observer.observe(document.querySelector('.contract-title-sub'));
+        observer.observe(document.querySelector('.contract-left'));
+        observer.observe(document.querySelector('.contract-right'));
+        observer.observe(document.querySelector('.contract-center'));
+
+        observer.observe(document.querySelector('.faq-title'));
+
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                const isActive = question.classList.contains('active');
+
+                question.parentElement.querySelectorAll('.faq-answer').forEach(a => a.classList.remove('active'));
+                question.parentElement.querySelectorAll('.faq-question').forEach(q => q.classList.remove('active'));
+
+                if (!isActive) {
+                    question.classList.add('active');
+                    answer.classList.add('active');
+                }
+            });
+        });
+    });
+</script>
